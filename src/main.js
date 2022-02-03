@@ -3,6 +3,7 @@ import fs from 'fs';
 import ncp from 'ncp';
 import path from 'path';
 import { promisify } from 'util';
+import { makePackage } from './cmds/make';
 
 const access = promisify(fs.access);
 const copy = promisify(ncp);
@@ -37,6 +38,10 @@ export async function createProject(options) {
     }
     console.log('Copy project files');
     await copyTemplateFiles(options);
+
+    // create package.json
+    console.log('Generate package.json file');
+    makePackage(options)
 
     console.log('%s Project ready', chalk.green.bold('DONE'));
     return true;

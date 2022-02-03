@@ -7,7 +7,7 @@ import { toPascalCase } from '../utils/strings'
 let fullPathName = new URL(import.meta.url).pathname;
 fullPathName = fullPathName.substring(1)
 
-export const generateModel = async (options) => {
+export const makeModel = async (options) => {
     const nameInPascal = toPascalCase(options.name)
     const newFile = path.resolve(
         `${fullPathName}`,
@@ -21,7 +21,7 @@ export const generateModel = async (options) => {
 
     
     let file = await ejs.renderFile(templateDir, {_name: options.name, _nameInPascal: nameInPascal})
-    if(fs.existsSync(newFile) && !options.forceCreate) {
+    if(fs.existsSync(newFile) && !options.forceAction) {
         console.log(chalk.red.bold('Error'), `${options.name}Model already exists`)
         return
     }
@@ -29,12 +29,12 @@ export const generateModel = async (options) => {
         if(err) {
             console.log(chalk.red.bold('Error'), err)
         } else {
-            console.log(chalk.green.bold('Done!'), `${newFile} has been generated`)
+            console.log(chalk.green.bold('DONE'), `${options.name}Model has been generated`)
         }
     })
 }
 
-export const generateController = async (options) => {
+export const makeController = async (options) => {
     const nameInPascal = toPascalCase(options.name)
     const newFile = path.resolve(
         `${fullPathName}`,
@@ -47,8 +47,8 @@ export const generateController = async (options) => {
       );
 
     
-    let file = await ejs.renderFile(templateDir, {_name: options.name, _nameInPascal: nameInPascal})
-    if(fs.existsSync(newFile) && !options.forceCreate) {
+    let file = await ejs.renderFile(templateDir, {_name: options.name, _nameInPascal: nameInPascal, _empty: options.empty})
+    if(fs.existsSync(newFile) && !options.forceAction) {
         console.log(chalk.red.bold('Error'), `${options.name}Controller already exists`)
         return
     }
@@ -56,12 +56,12 @@ export const generateController = async (options) => {
         if(err) {
             console.log(chalk.red.bold('Error'), err)
         } else {
-            console.log(chalk.green.bold('Done!'), `${newFile} has been generated`)
+            console.log(chalk.green.bold('DONE'), `${options.name}Controller has been generated`)
         }
     })
 }
 
-export const generateService = async (options) => {
+export const makeService = async (options) => {
     const nameInPascal = toPascalCase(options.name)
     const newFile = path.resolve(
         `${fullPathName}`,
@@ -74,8 +74,8 @@ export const generateService = async (options) => {
       );
 
     
-    let file = await ejs.renderFile(templateDir, {_name: options.name, _nameInPascal: nameInPascal})
-    if(fs.existsSync(newFile) && !options.forceCreate) {
+    let file = await ejs.renderFile(templateDir, {_name: options.name, _nameInPascal: nameInPascal, _empty: options.empty})
+    if(fs.existsSync(newFile) && !options.forceAction) {
         console.log(chalk.red.bold('Error'), `${options.name}Service already exists`)
         return
     }
@@ -83,12 +83,12 @@ export const generateService = async (options) => {
         if(err) {
             console.log(chalk.red.bold('Error'), err)
         } else {
-            console.log(chalk.green.bold('Done!'), `${newFile} has been generated`)
+            console.log(chalk.green.bold('DONE'), `${options.name}Service has been generated`)
         }
     })
 }
 
-export const generateRoute = async (options) => {
+export const makeRoute = async (options) => {
     const nameInPascal = toPascalCase(options.name)
     const newFile = path.resolve(
         `${fullPathName}`,
@@ -101,8 +101,8 @@ export const generateRoute = async (options) => {
       );
 
     
-    let file = await ejs.renderFile(templateDir, {_name: options.name, _nameInPascal: nameInPascal, _addAuthMiddleware: options.addAuthMiddleware})
-    if(fs.existsSync(newFile) && !options.forceCreate) {
+    let file = await ejs.renderFile(templateDir, {_name: options.name, _nameInPascal: nameInPascal, _addAuthMiddleware: options.authRoute})
+    if(fs.existsSync(newFile) && !options.forceAction) {
         console.log(chalk.red.bold('Error'), `${options.name}Routes already exists`)
         return
     }
@@ -110,7 +110,31 @@ export const generateRoute = async (options) => {
         if(err) {
             console.log(chalk.red.bold('Error'), err)
         } else {
-            console.log(chalk.green.bold('Done!'), `${newFile} has been generated`)
+            console.log(chalk.green.bold('DONE'), `${options.name}Routes has been generated`)
+            // add route to index.js
+            
+        }
+    })
+}
+
+export const makePackage = async (options) => {
+    const newFile = path.resolve(
+        `${fullPathName}`,
+        `../../../todoApp/`, 
+        `package.json`
+      );
+    const templateDir = path.resolve(
+        fullPathName,
+        `../../../templates/javascript/resource`, `package.json.ejs`
+      ); 
+
+    
+    let file = await ejs.renderFile(templateDir, {_name: options.projectName.toLowerCase(), _description: options.projectDescription})
+    fs.writeFile(newFile, file, (err) => {
+        if(err) {
+            console.log(chalk.red.bold('Error'), err)
+        } else {
+            console.log(chalk.green.bold('DONE'), `package.json has been generated`)
         }
     })
 }

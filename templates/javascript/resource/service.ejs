@@ -6,8 +6,17 @@ const <%= _name %>Model = mongoose.model('<%= _nameInPascal %>', new <%= _nameIn
 
 export class <%= _nameInPascal %>Service {
     constructor(){
-    }
-
+    }<% if(_empty) { %>
+    index = async (req, res) => {
+        try {
+            return new Promise((resolve, reject) => {
+                resolve('<%= _nameInPascal %> service')
+            })
+        } catch (error) {
+            throw error;
+        }
+    }<% } %>
+    <% if(!_empty) { %>
     create<%= _nameInPascal %> = async (data) => {
         try {
             let <%= _name %> = <%= _name %>Model(data);
@@ -54,5 +63,5 @@ export class <%= _nameInPascal %>Service {
             throw error;
         }
     }
-
+    <% } %>
 }

@@ -2,11 +2,17 @@ import { Response } from "../utils/response"
 
 export class <%= _nameInPascal %>Controller 
 {
-    constructor(<%= _name %>Service)
-    {
-        this.<%= _name %>Service = new <%= _name %>Service
+    constructor(<% if(!_empty) { %><%= _name %>Service<%}%>){
+        <% if(!_empty) { %>this.<%= _name %>Service = new <%= _name %>Service<% } %>
     }
-
+    <% if(_empty) { %>
+    index = async (req, res) => {
+        try {
+            res.json(new Response("<%= _nameInPascal %> index", data));
+        } catch (error) {
+            res.status(500).json(new Response("System glitch!", error, false));
+        }
+    }<% } %><% if(!_empty) { %>
     create<%= _nameInPascal %> = async (req, res) => {
         try {
             await this.<%= _name %>Service.create<%= _nameInPascal %>(req.body).then(data => {
@@ -66,5 +72,5 @@ export class <%= _nameInPascal %>Controller
         } catch (error) {
             res.status(500).json(new Response("System glitch!", error, false));
         }
-    }
+    }<% } %>
 }

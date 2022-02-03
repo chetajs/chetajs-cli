@@ -2,7 +2,7 @@ import arg from "arg";
 import inquirer from "inquirer";
 import chalk from 'chalk';
 import newProject from "./cmds/new";
-import { generateController, generateModel, generateService, generateRoute } from "./cmds/generate";
+import { makeController, makeModel, makeService, makeRoute } from "./cmds/make";
 
 
 function parseArguementsIntoOptions(rawArgs) {
@@ -11,13 +11,16 @@ function parseArguementsIntoOptions(rawArgs) {
             '--git': Boolean,
             '--yes': Boolean,
             '--install': Boolean,
+            '--force': Boolean,
+            '--auth': Boolean,
+            '--empty': Boolean,
+            '-a': '--auth',
             '-g': '--git',
             '-y': '--yes',
             '-i': '--install',
             '-n': '--name',
-            '-c': '--controller',
-            '-m': '--model',
-            '-s': '--service'
+            '-f': '--force',
+            '-e': '--empty'
         }, 
         {
             argv: rawArgs.slice(2)
@@ -29,9 +32,12 @@ function parseArguementsIntoOptions(rawArgs) {
         action: args._[0],
         runInstall: args['--install'] || false,
         projectName: args._[1],
-        genModel: args._['--model'] || false,
-        genService: args._['--service'] || false,
-        genController: args._['--controller'] || false,
+        genModel: args['--model'] || false,
+        genService: args['--service'] || false,
+        genController: args['--controller'] || false,
+        forceAction: args['--force'] || false,
+        authRoute: args['--auth'] || false,
+        empty: args['--empty'] || false,
     }
 }
 
@@ -55,6 +61,16 @@ async function promptForOptions(options) {
         )
     } else {
         console.log(`${chalk.green('>')} ${chalk.bold('Project name:')} ${chalk.blue(options.projectName)}`)
+    }
+
+    if(!options.projectDescription) {
+        questions.push(
+            {
+                type: 'input',
+                name: 'projectDescription',
+                message: 'Enter the project description:'
+            }
+        )
     }
 
     if(!options.template) {
@@ -109,6 +125,7 @@ async function promptForOptions(options) {
         template: options.template || answers.template,
         git: options.git || answers.git,
         projectName: options.projectName || answers.projectName,
+        projectDescription: options.projectDescription || answers.projectDescription,
         runInstall: options.runInstall || answers.install
     }
 
@@ -117,62 +134,56 @@ async function promptForOptions(options) {
 export async function cli(args) {
     let argSlice = args.slice(2)
     let options = parseArguementsIntoOptions(args)
-    if (options.action) {
-        switch (options.action) {
-            case 'new':
-            case 'n':
-                let opts = await promptForOptions(options)
-                newProject(opts)
+    if(options.action == "new") {
+        let opts = await promptForOptions(options)
+        newProject(opts)
+        return
+    }
+
+    const [action, type] = options.action.split(":")
+    if (action == "make") {
+        let name = argSlice[1]
+        const {forceAction, authRoute, empty} = options
+        let optsGen = {
+            name,
+            forceAction,
+            authRoute,
+            empty
+        }
+        switch (type) {
+            case "resource":
+            case "res":
+                optsGen.action = "resource"
+                makeRoute(optsGen)
+                makeModel(optsGen)
+                makeController(optsGen)
+                makeService(optsGen)
                 break;
-            case 'generate':
-            case 'g':
-                let action = argSlice[1]
-                let name = argSlice[2]
-                let forceCreate = false
-                let addAuthMiddleware = true
-                let optsGen = {
-                    name,
-                    forceCreate,
-                    addAuthMiddleware
-                }
-                switch (action) {
-                    case "resource":
-                    case "res":
-                        optsGen.action = "resource"
-                        generateRoute(optsGen)
-                        generateModel(optsGen)
-                        generateController(optsGen)
-                        generateService(optsGen)
-                        break;
-                    case "model":
-                    case "m":
-                        optsGen.action = "model"
-                        generateModel(optsGen)
-                        break;
-                    case "controller":
-                    case "c":
-                        optsGen.action = "controller"
-                        generateController(optsGen)
-                        break;
-                    case "service":
-                        case "s":
-                        optsGen.action = "service"
-                        generateService(optsGen)
-                        break;
-                    case "route":
-                        case "r":
-                        optsGen.action = "route"
-                        generateRoute(optsGen)
-                        break;
-                    default:
-                        break;
-                }
+            case "model":
+            case "m":
+                optsGen.action = "model"
+                makeModel(optsGen)
+                break;
+            case "controller":
+            case "c":
+                optsGen.action = "controller"
+                makeController(optsGen)
+                break;
+            case "service":
+                case "s":
+                optsGen.action = "service"
+                makeService(optsGen)
+                break;
+            case "route":
+                case "r":
+                optsGen.action = "route"
+                makeRoute(optsGen)
                 break;
             default:
-                console.log('Help doc')
+                console.log('Help doc 1')
                 break;
         }
     } else {
-        console.log('Help doc')
+        console.log('Help doc 2')
     }
 }
