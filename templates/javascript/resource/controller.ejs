@@ -1,0 +1,70 @@
+import { Response } from "../utils/response"
+
+export class <%= _nameInPascal %>Controller 
+{
+    constructor(<%= _name %>Service)
+    {
+        this.<%= _name %>Service = new <%= _name %>Service
+    }
+
+    create<%= _nameInPascal %> = async (req, res) => {
+        try {
+            await this.<%= _name %>Service.create<%= _nameInPascal %>(req.body).then(data => {
+                res.json(new Response("<%= _nameInPascal %> created", data));
+            }).catch(err => {
+                res.status(400).json(new Response("An error occured!", err, false));
+            })
+        } catch (error) {
+            res.status(500).json(new Response("System glitch!", error, false));
+        }
+    }
+
+    update<%= _nameInPascal %> = async (req, res) => {
+        try {
+            await this.<%= _name %>Service.update<%= _nameInPascal %>(req.body).then(data => {
+                res.json(new Response("<%= _nameInPascal %> updated", data));
+            }).catch(err => {
+                res.status(400).json(new Response("An error occured!", err, false));
+            })
+        } catch (error) {
+            res.status(500).json(new Response("System glitch!", error, false));
+        }
+    }
+
+    getAll<%= _nameInPascal %>s = async (req, res) => {
+        try {
+            await this.<%= _name %>Service.getAll<%= _nameInPascal %>s().then(data => {
+                res.json(new Response("All <%= _name %>s", data));
+            }).catch(err => {
+                res.status(400).json(new Response("An error occured!", err, false));
+            })
+        } catch (error) {
+            res.status(500).json(new Response("System glitch!", error, false));
+        }
+    }
+
+    get<%= _nameInPascal %> = async (req, res) => {
+        try {
+            await this.<%= _name %>Service.get<%= _nameInPascal %>(req.params.<%= _name %>id).then(data => {
+                res.json(new Response("<%= _nameInPascal %> found", data));
+            }).catch(err => {
+                console.log(err)
+                res.status(400).json(new Response(err, "", false));
+            })
+        } catch (error) {
+            res.status(500).json(new Response("System glitch!", error, false));
+        }
+    }
+
+    delete<%= _nameInPascal %> = async (req, res) => {
+        try {
+            await this.<%= _name %>Service.delete<%= _nameInPascal %>(req.params.<%= _name %>id).then(data => {
+                res.json(new Response("<%= _nameInPascal %> deleted"));
+            }).catch(err => {
+                res.status(400).json(new Response("An error occured!", err, false));
+            })
+        } catch (error) {
+            res.status(500).json(new Response("System glitch!", error, false));
+        }
+    }
+}

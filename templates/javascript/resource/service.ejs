@@ -1,0 +1,58 @@
+import { <%= _nameInPascal %>Model } from "../models/<%= _name %>Model"
+import mongoose from "mongoose"
+import "dotenv/config"
+
+const <%= _name %>Model = mongoose.model('<%= _nameInPascal %>', new <%= _nameInPascal %>Model);
+
+export class <%= _nameInPascal %>Service {
+    constructor(){
+    }
+
+    create<%= _nameInPascal %> = async (data) => {
+        try {
+            let <%= _name %> = <%= _name %>Model(data);
+            return <%= _name %>.save();
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    update<%= _nameInPascal %> = async (data) => {
+        try {
+            let <%= _name %> = await this.<%= _name %>.findByIdAndUpdate(data._id, {$set: data}, {new: true});
+            return <%= _name %>;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    getAll<%= _nameInPascal %>s = async () => {
+        try {
+            return await <%= _name %>Model.find({});
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    get<%= _nameInPascal %> = async (<%= _name %>Id) => {
+        try {
+            let <%= _name %> = await <%= _name %>Model.findById(<%= _name %>Id);
+            if(<%= _name %>)
+            {
+                return <%= _name %>
+            }
+            throw "<%= _nameInPascal %> not found!";
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    delete<%= _nameInPascal %> = async (<%= _name %>Id) => {
+        try {
+            return await <%= _name %>Model.findByIdAndDelete(<%= _name %>Id);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+}

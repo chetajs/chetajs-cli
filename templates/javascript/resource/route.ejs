@@ -1,0 +1,21 @@
+import { <%= _nameInPascal%>Controller } from "../../controllers/<%= _name %>Controller";
+import { Router } from "express";
+import { <%= _nameInPascal%>Service } from "../../services/<%= _name %>Service";
+<% if(_addAuthMiddleware) { %>import { loginRequired } from "../../middlewares/authMiddleware" <% } %>
+
+const router = Router();
+
+const <%= _name %>Ctrl = new <%= _nameInPascal%>Controller(<%= _nameInPascal  %>Service);
+
+
+router.route('/')
+        .get(<% if(_addAuthMiddleware) { %>loginRequired, <% } %><%= _name %>Ctrl.getAll<%= _nameInPascal%>s)
+        .post(<% if(_addAuthMiddleware) { %>loginRequired, <% } %><%= _name %>Ctrl.create<%= _nameInPascal%>)
+        .put(<% if(_addAuthMiddleware) { %>loginRequired, <% } %><%= _name %>Ctrl.update<%= _nameInPascal%>)
+
+router.route('/:<%= _name %>id')
+        .get(<% if(_addAuthMiddleware) { %>loginRequired, <% } %><%= _name %>Ctrl.get<%= _nameInPascal%>)
+        .delete(<% if(_addAuthMiddleware) { %>loginRequired, <% } %><%= _name %>Ctrl.delete<%= _nameInPascal%>)
+
+
+export default router;
