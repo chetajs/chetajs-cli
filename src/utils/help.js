@@ -4,7 +4,7 @@ import {version} from '../../package.json';
 
 export const helpDoc = () => {
     return `${boxen(`
-    ${chalk.yellow('ChetaJS')} - Cli generator for bootstrapping ExpressJS applications     
+    ${chalk.yellow('ChetaJS')} - Cli generator for scaffolding ExpressJS applications     
     Version ${version}
     `, 
     { borderColor: 'green', borderStyle: 'round'})}
