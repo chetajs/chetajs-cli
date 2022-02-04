@@ -1,9 +1,9 @@
-import { <%= _nameInPascal %>Model } from "../models/<%= _name %>Model"
-import mongoose from "mongoose"
 import "dotenv/config"
-
+<% if(!_empty) { %>import { <%= _nameInPascal %>Model } from "../models/<%= _name %>Model"<%}%>
+<% if(!_empty) { %>import mongoose from "mongoose"<%} %>
+<% if(!_empty) { %>
 const <%= _name %>Model = mongoose.model('<%= _nameInPascal %>', new <%= _nameInPascal %>Model);
-
+<% } -%>
 export class <%= _nameInPascal %>Service {
     constructor(){
     }<% if(_empty) { %>

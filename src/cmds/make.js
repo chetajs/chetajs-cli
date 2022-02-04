@@ -3,6 +3,7 @@ import fs from 'fs'
 import ejs from 'ejs'
 import chalk from 'chalk';
 import { toPascalCase } from '../utils/strings'
+import boxen from 'boxen';
 
 let fullPathName = new URL(import.meta.url).pathname;
 fullPathName = fullPathName.substring(1)
@@ -90,6 +91,11 @@ export const makeService = async (options) => {
 
 export const makeRoute = async (options) => {
     const nameInPascal = toPascalCase(options.name)
+    const indexRoute = path.resolve(
+        `${fullPathName}`,
+        `../../../todoApp/src/routes`, 
+        `index.js`
+      );
     const newFile = path.resolve(
         `${fullPathName}`,
         `../../../todoApp/src/routes`, 
@@ -112,7 +118,16 @@ export const makeRoute = async (options) => {
         } else {
             console.log(chalk.green.bold('DONE'), `${options.name}Routes has been generated`)
             // add route to index.js
-            
+            const importStatement = `import ${options.name}Routes from "./${options.name}Routes"`
+            const appRouter = `appRouter.use('/${options.name}', ${options.name}Routes)`
+            // fs.appendFileSync(indexRoute, importStatement)
+            // fs.appendFileSync(indexRoute, appRouter)
+            console.log(boxen(`
+   Add this to ${chalk.blue(indexRoute)}   
+
+   - ${chalk.yellow(importStatement)}
+   - ${chalk.yellow(appRouter)}
+`, {title: 'Required Action', borderColor: 'green', borderStyle: 'round'}))
         }
     })
 }

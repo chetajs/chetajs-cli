@@ -3,6 +3,8 @@ import inquirer from "inquirer";
 import chalk from 'chalk';
 import newProject from "./cmds/new";
 import { makeController, makeModel, makeService, makeRoute } from "./cmds/make";
+import { helpDoc } from "./utils/help";
+import {version} from '../package.json';
 
 
 function parseArguementsIntoOptions(rawArgs) {
@@ -79,7 +81,7 @@ async function promptForOptions(options) {
                 type: 'list',
                 name: 'template',
                 message: 'Please chose which project template to use',
-                choices: ['Javascript', 'Typescript'],
+                choices: ['Javascript'],
                 default: defaultTemplate
             }
         )
@@ -91,7 +93,7 @@ async function promptForOptions(options) {
                 type: 'list',
                 name: 'database',
                 message: 'Please chose which database type to use',
-                choices: ['MongoDB', 'Sequelize'],
+                choices: ['MongoDB'],
                 default: 'MongoDB'
             }
         )
@@ -140,6 +142,16 @@ export async function cli(args) {
         return
     }
 
+    if(options.action == "version" || options.action == "v") {
+        console.log(`Version ${version}`)
+        return
+    }
+
+    if(options.action == "help" || options.action == "h") {
+        console.log(helpDoc())
+        return
+    }
+
     const [action, type] = options.action.split(":")
     if (action == "make") {
         let name = argSlice[1]
@@ -154,10 +166,10 @@ export async function cli(args) {
             case "resource":
             case "res":
                 optsGen.action = "resource"
-                makeRoute(optsGen)
                 makeModel(optsGen)
                 makeController(optsGen)
                 makeService(optsGen)
+                makeRoute(optsGen)
                 break;
             case "model":
             case "m":
@@ -180,10 +192,10 @@ export async function cli(args) {
                 makeRoute(optsGen)
                 break;
             default:
-                console.log('Help doc 1')
+                console.log(helpDoc())
                 break;
         }
     } else {
-        console.log('Help doc 2')
+        console.log(helpDoc())
     }
 }
