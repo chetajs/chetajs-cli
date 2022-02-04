@@ -1,37 +1,47 @@
-## Welcome to GitHub Pages
+# chetajs
+![enter image description here](https://res.cloudinary.com/dpyywotyh/image/upload/v1644010567/chetajs/chetajs_banner_y11tt7.png)
 
-You can use the [editor on GitHub](https://github.com/christianArk/chetajs/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+NodeJS CLI generator tool for scaffolding ExpressJS applications.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+*Pre-loaded authentication and authentication middleware for securing your application.*
 
-### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+## Install
+Make sure you have [NodeJS](https://nodejs.org/en/) installed on your machine.
+```
+npm install chetajs -g
 ```
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+### Scalffold a new project
+Navigate to the directory you wish to scalffold your new project then run the command below
+```
+$ chetajs new appname
+```
 
-### Jekyll Themes
+### Usage
+Navigate to your scaffolded project and run any command as desired
+```
+$ chetajs <command>:<arg> <name> [options]
+```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/christianArk/chetajs/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+### Commands
 
-### Support or Contact
+ - make
+ - version
+ - help
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+### Args
+|Arg|Alias|Description
+|--|--|--|
+| resource|res|generates a model, controller, service, route files  |
+| model|m|generates a model file	  |
+| controller|c|generates a model, controller, service, route files  |
+| route|r|generates a route file  |
+| service|s|generates service files  |
+
+### Options
+|Arg|Alias|Description
+|--|--|--|
+| --force  |-f  |Create file even if it already exists
+| --empty   |-e| Create empty controller, service file (without crud methods
+| --auth   |-a|Add authenticate middleware to route |
