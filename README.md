@@ -1,4 +1,5 @@
 # chetajs
+![enter image description here](https://res.cloudinary.com/dpyywotyh/image/upload/v1644010056/chetajs/chetajs_c1ukpd.gif)
 
 NodeJS CLI generator tool for scaffolding ExpressJS applications.
 
