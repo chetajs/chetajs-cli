@@ -7,7 +7,9 @@
 
 NodeJS CLI generator tool for scaffolding ExpressJS applications.
 
-*Pre-loaded with authentication and authentication middleware for securing your application.*
+
+
+*Pre-loaded authentication and authentication middleware for securing your application.*
 
 
 ## Install
