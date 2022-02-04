@@ -152,50 +152,58 @@ export async function cli(args) {
         return
     }
 
-    const [action, type] = options.action.split(":")
-    if (action == "make") {
-        let name = argSlice[1]
-        const {forceAction, authRoute, empty} = options
-        let optsGen = {
-            name,
-            forceAction,
-            authRoute,
-            empty
+    try {
+        const [action, type] = options.action.split(":")
+        if (action == "make") {
+            let name = argSlice[1]
+            const {forceAction, authRoute, empty} = options
+            let optsGen = {
+                name,
+                forceAction,
+                authRoute,
+                empty
+            }
+            switch (type) {
+                case "resource":
+                case "res":
+                    optsGen.action = "resource"
+                    makeModel(optsGen)
+                    makeController(optsGen)
+                    makeService(optsGen)
+                    makeRoute(optsGen)
+                    console.log(`
+                    Next Steps:
+                    - Edit the .env file to setup your db and mail provider
+                    `)
+                    break;
+                case "model":
+                case "m":
+                    optsGen.action = "model"
+                    makeModel(optsGen)
+                    break;
+                case "controller":
+                case "c":
+                    optsGen.action = "controller"
+                    makeController(optsGen)
+                    break;
+                case "service":
+                    case "s":
+                    optsGen.action = "service"
+                    makeService(optsGen)
+                    break;
+                case "route":
+                    case "r":
+                    optsGen.action = "route"
+                    makeRoute(optsGen)
+                    break;
+                default:
+                    console.log(helpDoc())
+                    break;
+            }
+        } else {
+            console.log(helpDoc())
         }
-        switch (type) {
-            case "resource":
-            case "res":
-                optsGen.action = "resource"
-                makeModel(optsGen)
-                makeController(optsGen)
-                makeService(optsGen)
-                makeRoute(optsGen)
-                break;
-            case "model":
-            case "m":
-                optsGen.action = "model"
-                makeModel(optsGen)
-                break;
-            case "controller":
-            case "c":
-                optsGen.action = "controller"
-                makeController(optsGen)
-                break;
-            case "service":
-                case "s":
-                optsGen.action = "service"
-                makeService(optsGen)
-                break;
-            case "route":
-                case "r":
-                optsGen.action = "route"
-                makeRoute(optsGen)
-                break;
-            default:
-                console.log(helpDoc())
-                break;
-        }
-    } else {
+    } catch (error) {
         console.log(helpDoc())
     }
 }

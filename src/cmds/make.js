@@ -4,6 +4,8 @@ import ejs from 'ejs'
 import chalk from 'chalk';
 import { toPascalCase } from '../utils/strings'
 import boxen from 'boxen';
+import { cwd } from 'process';
+
 
 let fullPathName = new URL(import.meta.url).pathname;
 fullPathName = fullPathName.substring(1)
@@ -11,8 +13,8 @@ fullPathName = fullPathName.substring(1)
 export const makeModel = async (options) => {
     const nameInPascal = toPascalCase(options.name)
     const newFile = path.resolve(
-        `${fullPathName}`,
-        `../../../todoApp/src/models`, 
+        `${cwd()}`,
+        `./src/models`, 
         `${options.name}Model.js`
       );
     const templateDir = path.resolve(
@@ -38,8 +40,8 @@ export const makeModel = async (options) => {
 export const makeController = async (options) => {
     const nameInPascal = toPascalCase(options.name)
     const newFile = path.resolve(
-        `${fullPathName}`,
-        `../../../todoApp/src/controllers`, 
+        `${cwd()}`,
+        `./src/controllers`, 
         `${options.name}Controller.js`
       );
     const templateDir = path.resolve(
@@ -65,8 +67,8 @@ export const makeController = async (options) => {
 export const makeService = async (options) => {
     const nameInPascal = toPascalCase(options.name)
     const newFile = path.resolve(
-        `${fullPathName}`,
-        `../../../todoApp/src/services`, 
+        `${cwd()}`,
+        `./src/services`, 
         `${options.name}Service.js`
       );
     const templateDir = path.resolve(
@@ -92,13 +94,13 @@ export const makeService = async (options) => {
 export const makeRoute = async (options) => {
     const nameInPascal = toPascalCase(options.name)
     const indexRoute = path.resolve(
-        `${fullPathName}`,
-        `../../../todoApp/src/routes`, 
+        `${cwd()}`,
+        `./src/routes`,
         `index.js`
       );
     const newFile = path.resolve(
-        `${fullPathName}`,
-        `../../../todoApp/src/routes`, 
+        `${cwd()}`,
+        `./src/routes`, 
         `${options.name}Routes.js`
       );
     const templateDir = path.resolve(
@@ -123,20 +125,19 @@ export const makeRoute = async (options) => {
             // fs.appendFileSync(indexRoute, importStatement)
             // fs.appendFileSync(indexRoute, appRouter)
             console.log(boxen(`
-   Add this to ${chalk.blue(indexRoute)}   
+   Add the below to ${chalk.blue(indexRoute)}   
 
    - ${chalk.yellow(importStatement)}
    - ${chalk.yellow(appRouter)}
-`, {title: 'Required Action', borderColor: 'green', borderStyle: 'round'}))
+`, {title: 'Action Required', borderColor: 'green', borderStyle: 'round'}))
         }
     })
 }
 
 export const makePackage = async (options) => {
     const newFile = path.resolve(
-        `${fullPathName}`,
-        `../../../todoApp/`, 
-        `package.json`
+        `${cwd()}`,
+        `${options.projectName}/package.json`
       );
     const templateDir = path.resolve(
         fullPathName,

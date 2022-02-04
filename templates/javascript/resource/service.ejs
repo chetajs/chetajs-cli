@@ -28,7 +28,7 @@ export class <%= _nameInPascal %>Service {
 
     update<%= _nameInPascal %> = async (data) => {
         try {
-            let <%= _name %> = await this.<%= _name %>.findByIdAndUpdate(data._id, {$set: data}, {new: true});
+            let <%= _name %> = await this.<%= _name %>Model.findByIdAndUpdate(data._id, {$set: data}, {new: true});
             return <%= _name %>;
         } catch (error) {
             throw error;

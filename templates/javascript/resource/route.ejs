@@ -1,7 +1,7 @@
-import { <%= _nameInPascal%>Controller } from "../../controllers/<%= _name %>Controller";
+import { <%= _nameInPascal%>Controller } from "../controllers/<%= _name %>Controller";
 import { Router } from "express";
-import { <%= _nameInPascal%>Service } from "../../services/<%= _name %>Service";
-<% if(_addAuthMiddleware) { %>import { loginRequired } from "../../middlewares/authMiddleware" <% } %>
+import { <%= _nameInPascal%>Service } from "../services/<%= _name %>Service";
+<% if(_addAuthMiddleware) { %>import { loginRequired } from "../middlewares/authMiddleware" <% } %>
 
 const router = Router();
 
