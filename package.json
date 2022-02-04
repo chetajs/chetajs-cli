@@ -1,7 +1,7 @@
 {
   "name": "chetajs",
   "version": "1.0.2",
-  "description": "Chetajs is a cli generator for fast boostraping a NodeJs-ExpressJs backend application",
+  "description": "Chetajs is a NodeJS cli generator for scaffolding an ExpressJs application",
   "main": "bin/chetajs",
   "bin": {
     "chetajs": "bin/chetajs"
