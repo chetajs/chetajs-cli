@@ -42,13 +42,13 @@ export async function createProject(options) {
     );
     options.templateDirectory = templateDir;
    
-    try {
-      await access(templateDir, fs.constants.R_OK);
-    } catch (err) {
-      console.log(chalk.red(err))
-      console.error('%s Invalid template name', chalk.red.bold('ERROR'));
-      process.exit(1);
-    }
+    // try {
+    //   await access(templateDir, fs.constants.R_OK);
+    // } catch (err) {
+    //   console.log(chalk.red(err))
+    //   console.error('%s Invalid template name', chalk.red.bold('ERROR'));
+    //   process.exit(1);
+    // }
 
     const tasks = new Listr([
       {
