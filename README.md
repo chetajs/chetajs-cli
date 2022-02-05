@@ -31,6 +31,8 @@ $ chetajs new appname
 $ cd appname
 ```
 
+- Rename the env.txt to .env file in your base directory
+
   
 
 ### Usage

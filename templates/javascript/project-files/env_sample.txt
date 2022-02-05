@@ -1,12 +1,13 @@
-APP_NAME=Expressio
-PORT=3000
+APP_NAME=ChetaJs
+PORT=4000
+
 BCRYPT_SALT=10
 JWT_SECRET=MY_JWT_SECRET
 
-DB_URI=mongodb://localhost/UserServiceDB
+DB_URI=mongodb://localhost/newAppDB
 
-MAIL_FROM=onyenekechristian@gmail.com
+MAIL_FROM=johndoe@domain.com
 MAIL_HOST=smtp.mailtrap.io
-MAIL_USER=qwerty
-MAIL_PASSWORD=qwerty
+MAIL_USER=xxxxxxxxxxxx
+MAIL_PASSWORD=xxxxxxxxxxxx
 MAIL_PORT=2525
