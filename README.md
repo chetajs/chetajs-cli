@@ -28,6 +28,7 @@ Navigate to the directory you wish to scalffold your new project then run the co
 
 ```
 $ chetajs new appname
+$ cd appname
 ```
 
   
