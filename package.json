@@ -2,9 +2,9 @@
   "name": "chetajs",
   "version": "1.0.8",
   "description": "Chetajs is a NodeJS cli generator for scaffolding ExpressJs applications",
-  "main": "bin/chetajs",
+  "main": "bin/index.js",
   "bin": {
-    "chetajs": "bin/chetajs"
+    "chetajs": "./bin/index.js"
   },
   "publishConfig": {
     "access": "public"
