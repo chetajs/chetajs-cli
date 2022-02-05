@@ -134,25 +134,26 @@ async function promptForOptions(options) {
 }
 
 export async function cli(args) {
-    let argSlice = args.slice(2)
-    let options = parseArguementsIntoOptions(args)
-    if(options.action == "new") {
-        let opts = await promptForOptions(options)
-        newProject(opts)
-        return
-    }
-
-    if(options.action == "version" || options.action == "v") {
-        console.log(`Version ${version}`)
-        return
-    }
-
-    if(options.action == "help" || options.action == "h") {
-        console.log(helpDoc())
-        return
-    }
-
     try {
+        let argSlice = args.slice(2)
+        let options = parseArguementsIntoOptions(args)
+        if(options.action == "new") {
+            let opts = await promptForOptions(options)
+            newProject(opts)
+            return
+        }
+
+        if(options.action == "version" || options.action == "v") {
+            console.log(`Version ${version}`)
+            return
+        }
+
+        if(options.action == "help" || options.action == "h") {
+            console.log(helpDoc())
+            return
+        }
+
+    
         const [action, type] = options.action.split(":")
         if (action == "make") {
             let name = argSlice[1]
