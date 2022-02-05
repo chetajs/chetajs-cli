@@ -7,7 +7,7 @@ import boxen from 'boxen';
 import { cwd } from 'process';
 
 
-let fullPathName = new URL(import.meta.url).pathname;
+let fullPathName = __dirname;
 fullPathName = fullPathName.substring(1)
 
 export const makeModel = async (options) => {
