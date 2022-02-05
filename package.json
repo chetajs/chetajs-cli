@@ -1,6 +1,6 @@
 {
   "name": "chetajs",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Chetajs is a NodeJS cli generator for scaffolding ExpressJs applications",
   "main": "bin/index.js",
   "bin": {
