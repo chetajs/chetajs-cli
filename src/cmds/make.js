@@ -7,19 +7,16 @@ import boxen from 'boxen';
 import { cwd } from 'process';
 
 
-let fullPathName = __dirname;
-fullPathName = fullPathName.substring(1)
-
 export const makeModel = async (options) => {
     const nameInPascal = toPascalCase(options.name)
-    const newFile = path.resolve(
+    const newFile = path.join(
         `${cwd()}`,
         `./src/models`, 
         `${options.name}Model.js`
       );
-    const templateDir = path.resolve(
-        fullPathName,
-        `../../../templates/javascript/resource`, `model.ejs`
+    const templateDir = path.join(
+        __dirname,
+        `./../../templates/javascript/resource`, `model.ejs`
       );
 
     
@@ -39,14 +36,14 @@ export const makeModel = async (options) => {
 
 export const makeController = async (options) => {
     const nameInPascal = toPascalCase(options.name)
-    const newFile = path.resolve(
+    const newFile = path.join(
         `${cwd()}`,
         `./src/controllers`, 
         `${options.name}Controller.js`
       );
-    const templateDir = path.resolve(
-        fullPathName,
-        `../../../templates/javascript/resource`, `controller.ejs`
+    const templateDir = path.join(
+        __dirname,
+        `./../../templates/javascript/resource`, `controller.ejs`
       );
 
     
@@ -66,14 +63,14 @@ export const makeController = async (options) => {
 
 export const makeService = async (options) => {
     const nameInPascal = toPascalCase(options.name)
-    const newFile = path.resolve(
+    const newFile = path.join(
         `${cwd()}`,
         `./src/services`, 
         `${options.name}Service.js`
       );
-    const templateDir = path.resolve(
-        fullPathName,
-        `../../../templates/javascript/resource`, `service.ejs`
+    const templateDir = path.join(
+        __dirname,
+        `./../../templates/javascript/resource`, `service.ejs`
       );
 
     
@@ -93,19 +90,19 @@ export const makeService = async (options) => {
 
 export const makeRoute = async (options) => {
     const nameInPascal = toPascalCase(options.name)
-    const indexRoute = path.resolve(
+    const indexRoute = path.join(
         `${cwd()}`,
         `./src/routes`,
         `index.js`
       );
-    const newFile = path.resolve(
+    const newFile = path.join(
         `${cwd()}`,
         `./src/routes`, 
         `${options.name}Routes.js`
       );
-    const templateDir = path.resolve(
-        fullPathName,
-        `../../../templates/javascript/resource`, `route.ejs`
+    const templateDir = path.join(
+        __dirname,
+        `./../../templates/javascript/resource`, `route.ejs`
       );
 
     
@@ -135,13 +132,13 @@ export const makeRoute = async (options) => {
 }
 
 export const makePackage = async (options) => {
-    const newFile = path.resolve(
+    const newFile = path.join(
         `${cwd()}`,
         `${options.projectName}/package.json`
       );
-    const templateDir = path.resolve(
-        fullPathName,
-        `../../../templates/javascript/resource`, `package.json.ejs`
+    const templateDir = path.join(
+        __dirname,
+        `./../../templates/javascript/resource`, `package.json.ejs`
       ); 
 
     
