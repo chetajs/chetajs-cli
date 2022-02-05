@@ -6,14 +6,19 @@ import { promisify } from 'util';
 import { makePackage } from './cmds/make';
 import execa from 'execa';
 import Listr from 'listr';
+import fse from 'fs-extra';
 import { projectInstall } from 'pkg-install';
 
 const access = promisify(fs.access);
 const copy = promisify(ncp);
 
 async function copyTemplateFiles(options) {
- return copy(options.templateDirectory, options.targetDirectory, {
-   clobber: false,
+ fse.copySync(options.templateDirectory, options.targetDirectory, (err) => {
+   if(err) {
+     console.log(err)
+   } else {
+     return true;
+   }
  });
 }
 
