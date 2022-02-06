@@ -151,3 +151,24 @@ export const makePackage = async (options) => {
         }
     })
 }
+
+export const makeConfig = async (options) => {
+    const newFile = path.join(
+        `${cwd()}`,
+        `${options.projectName}/config.json`
+      );
+    const templateDir = path.join(
+        __dirname,
+        `./../../templates/javascript/resource`, `config.json.ejs`
+      ); 
+
+    
+    let file = await ejs.renderFile(templateDir, {_database: options.database.toLowerCase(), _template: options.template.toLowerCase()})
+    fs.writeFile(newFile, file, (err) => {
+        if(err) {
+            console.log(chalk.red.bold('Error'), err)
+        } else {
+            console.log(chalk.green.bold('DONE'), `config.json has been generated`)
+        }
+    })
+}
