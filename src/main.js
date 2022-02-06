@@ -3,7 +3,7 @@ import fs from 'fs';
 import ncp from 'ncp';
 import path from 'path';
 import { promisify } from 'util';
-import { makePackage } from './cmds/make';
+import { makePackage, makeConfig } from './cmds/make';
 import execa from 'execa';
 import Listr from 'listr';
 import { projectInstall } from 'pkg-install';
@@ -56,6 +56,10 @@ export async function createProject(options) {
       {
         title: 'Create package.json file',
         task: () => makePackage(options),
+      },
+      {
+        title: 'Create config.json file',
+        task: () => makeConfig(options),
       },
       {
         title: 'Initialize git',

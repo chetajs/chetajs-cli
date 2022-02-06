@@ -93,7 +93,7 @@ async function promptForOptions(options) {
                 type: 'list',
                 name: 'database',
                 message: 'Please chose which database type to use',
-                choices: ['MongoDB'],
+                choices: ['MongoDB', 'Sequelize'],
                 default: 'MongoDB'
             }
         )
