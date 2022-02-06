@@ -39,6 +39,9 @@
     "ncp": "^2.0.0",
     "pkg-install": "^1.0.0"
   },
+  "devDependencies": {
+    "ansi-regex": ">=5.0.1"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/christianArk/chetajs"
