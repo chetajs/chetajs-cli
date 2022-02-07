@@ -1,0 +1,23 @@
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../database/connection.js';
+
+const <%= _nameInPascal %> = sequelize.define('<%= _nameInPascal %>', {
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
+    },
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+        type: DataTypes.DATE,
+    }
+})
+
+export default <%= _nameInPascal %>

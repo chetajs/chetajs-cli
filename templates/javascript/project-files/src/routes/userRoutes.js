@@ -13,7 +13,7 @@ router.route('/')
         .put(loginRequired, userCtrl.updateUser)
 
 router.route('/:userid')
-        .get(loginRequired.toString, userCtrl.getUser)
+        .get(loginRequired, userCtrl.getUser)
         .delete(loginRequired, userCtrl.deleteUser)
 
 

@@ -14,10 +14,23 @@ export const makeModel = async (options) => {
         `./src/models`, 
         `${options.name}Model.js`
       );
-    const templateDir = path.join(
+    let templateDir = path.join(
         __dirname,
-        `./../../templates/javascript/resource`, `model.ejs`
+        `./../../templates/javascript/resource/`, `model.ejs`
       );
+    
+    let configFile =  fs.readFileSync(path.join(
+    `${cwd()}`,
+    `config.json`,
+    ))
+    let projectConfig = JSON.parse(configFile)
+    if (projectConfig.database == 'sequelize')
+    {
+        templateDir = path.join(
+            __dirname,
+            `./../../templates/javascript/resource/sequelize/templates`, `model.ejs`
+          );
+    }
 
     
     let file = await ejs.renderFile(templateDir, {_name: options.name, _nameInPascal: nameInPascal})
@@ -68,10 +81,23 @@ export const makeService = async (options) => {
         `./src/services`, 
         `${options.name}Service.js`
       );
-    const templateDir = path.join(
+    let templateDir = path.join(
         __dirname,
         `./../../templates/javascript/resource`, `service.ejs`
       );
+
+      let configFile =  fs.readFileSync(path.join(
+        `${cwd()}`,
+        `config.json`,
+        ))
+        let projectConfig = JSON.parse(configFile)
+      if (projectConfig.database == 'sequelize')
+      {
+          templateDir = path.join(
+              __dirname,
+              `./../../templates/javascript/resource/sequelize/templates`, `service.ejs`
+            );
+      }
 
     
     let file = await ejs.renderFile(templateDir, {_name: options.name, _nameInPascal: nameInPascal, _empty: options.empty})
@@ -140,9 +166,13 @@ export const makePackage = async (options) => {
         __dirname,
         `./../../templates/javascript/resource`, `package.json.ejs`
       ); 
-
     
-    let file = await ejs.renderFile(templateDir, {_name: options.projectName.toLowerCase(), _description: options.projectDescription})
+    let file = await ejs.renderFile(templateDir,  {
+        _name: options.projectName.toLowerCase(), 
+        _description: options.projectDescription,
+        _database: options.database.toLowerCase(),
+        _template: options.template.toLowerCase()
+    })
     fs.writeFile(newFile, file, (err) => {
         if(err) {
             console.log(chalk.red.bold('Error'), err)
@@ -157,13 +187,12 @@ export const makeConfig = async (options) => {
         `${cwd()}`,
         `${options.projectName}/config.json`
       );
-    const templateDir = path.join(
+    const configTemplateDir = path.join(
         __dirname,
         `./../../templates/javascript/resource`, `config.json.ejs`
       ); 
 
-    
-    let file = await ejs.renderFile(templateDir, {_database: options.database.toLowerCase(), _template: options.template.toLowerCase()})
+    let file = await ejs.renderFile(configTemplateDir, {_database: options.database.toLowerCase(), _template: options.template.toLowerCase()})
     fs.writeFile(newFile, file, (err) => {
         if(err) {
             console.log(chalk.red.bold('Error'), err)

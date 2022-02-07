@@ -1,16 +1,17 @@
 
 # chetajs
 
-![enter image description here](https://res.cloudinary.com/dpyywotyh/image/upload/v1644010567/chetajs/chetajs_banner_y11tt7.png)
+![chetajs-logo](https://res.cloudinary.com/dpyywotyh/image/upload/v1644010567/chetajs/chetajs_banner_y11tt7.png)
 
   
 
 NodeJS CLI generator tool for scaffolding ExpressJS applications.
 
-
-
 *Pre-loaded authentication and authentication middleware for securing your application.*
 
+## Database Support
+ - MongoDB 
+ - Sequelize
 
 ## Install
 
@@ -19,7 +20,6 @@ Make sure you have [NodeJS](https://nodejs.org/en/) installed on your machine.
 ```
 npm install chetajs -g
 ```
-
   
 
 ### Scalffold a new project
@@ -31,7 +31,9 @@ $ chetajs new appname
 $ cd appname
 ```
 
-- Rename the env.txt to .env file in your base directory
+> *Using the **env.txt** file as a guide,*
+> 
+> Create a **.env** in the base project directory and setup your database connection string
 
   
 
