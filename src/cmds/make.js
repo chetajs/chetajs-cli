@@ -140,9 +140,13 @@ export const makePackage = async (options) => {
         __dirname,
         `./../../templates/javascript/resource`, `package.json.ejs`
       ); 
-
     
-    let file = await ejs.renderFile(templateDir, {_name: options.projectName.toLowerCase(), _description: options.projectDescription})
+    let file = await ejs.renderFile(templateDir,  {
+        _name: options.projectName.toLowerCase(), 
+        _description: options.projectDescription,
+        _database: options.database.toLowerCase(),
+        _template: options.template.toLowerCase()
+    })
     fs.writeFile(newFile, file, (err) => {
         if(err) {
             console.log(chalk.red.bold('Error'), err)

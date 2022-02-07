@@ -80,7 +80,7 @@ async function promptForOptions(options) {
             {
                 type: 'list',
                 name: 'template',
-                message: 'Please chose which project template to use',
+                message: 'Please choose which project template to use',
                 choices: ['Javascript'],
                 default: defaultTemplate
             }
@@ -125,6 +125,7 @@ async function promptForOptions(options) {
     return {
         ...options,
         template: options.template || answers.template,
+        database: options.database || answers.database,
         git: options.git || answers.git,
         projectName: options.projectName || answers.projectName,
         projectDescription: options.projectDescription || answers.projectDescription,

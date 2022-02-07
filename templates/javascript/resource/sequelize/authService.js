@@ -1,15 +1,13 @@
 import { UserService } from "./userService"
-import {UserTokenModel} from "../models/userTokenModel"
+import UserTokenModel from "../models/userTokenModel"
 import { Utils } from "../utils/utils"
 import { Mail } from "../utils/mail"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-import mongoose from "mongoose"
 import 'dotenv/config'
 import moment from "moment"
 
 const {JWT_SECRET, BCRYPT_SALT} = process.env
-const userTokenModel = mongoose.model('UserToken', new UserTokenModel)
 
 export class AuthService {
     constructor() {
@@ -27,7 +25,7 @@ export class AuthService {
                 throw "Incorrect email/password"
             }
             let userTokenObj = {
-                id: user._id,
+                id: user.id,
                 username: user.userName,
                 email: user.email,
                 roles: [],
@@ -47,7 +45,7 @@ export class AuthService {
             let user = await this.userService.createUser(data);
             if(user) {
                 let userTokenObj = {
-                    id: user._id,
+                    id: user.id,
                     username: user.userName,
                     email: user.email,
                     roles: ['SUPER_ADMIN'],
@@ -69,13 +67,19 @@ export class AuthService {
             if(user) {
                 const util = new Utils
                 const token = util.generateToken(6)
+
                 let mailer = new Mail
-                mailer.from = "johndoe@domain.com"
-                mailer.to = user.email
+                mailer.from = "onyenekechristian@gmail.com"
+                mailer.to = "onyenekechristian@yahoo.com"
                 mailer.subject = "Password recovery token"
                 mailer.body = `Dear ${user.userName}, <br> Kindly find below your password recovery token. <br> This token is valid for 5 minutes. <br> Token: <b>${token}</b>`
                 
-                const userToken = await userTokenModel.findOne({userID: user._id})
+                const userToken = await UserTokenModel.findOne({
+                    where: {
+                        userID: user.id
+                    }
+                })
+                
                 const tokenExp = moment().add(5, 'minutes')
                 if(userToken) {
                     userToken.token = token
@@ -84,17 +88,17 @@ export class AuthService {
                     userToken.save()
                 } else {
                     const newToken = {
-                        userID: user._id,
+                        userID: user.id,
                         token: token,
                         expiryDt: tokenExp
                     }
-                    const tokenModel = userTokenModel(newToken)
-                    tokenModel.save();
+                    await UserTokenModel.create(newToken)
                 }
                 
                 await mailer.sendMail().then(res => {
                     return res
                 }).catch(err => {
+                    console.log(err)
                     throw "Could not send email"
                 })
             } else { 
@@ -109,12 +113,24 @@ export class AuthService {
         try { 
             let user = await this.userService.getUserByEmail(data.email)
             if(!user) throw "Email not found!"
-            let token = await userTokenModel.findOne({userID: user._id, token: data.token})
+            let token = await UserTokenModel.findOne({
+                where: {
+                    userID: user.id, 
+                    token: data.token
+                }
+            })
             if(!token || moment(token.expiryDt).isBefore(moment())) throw "Token not found / expired"
 
-            token.deleteOne()
-            user.hashPassword = bcrypt.hashSync(data.password, parseInt(BCRYPT_SALT));
-            return user.save()
+            await UserTokenModel.destroy({
+                where: {
+                    id: token.id
+                }
+            })
+            let passwordUpdateData = {
+                id: user.id,
+                hashPassword: bcrypt.hashSync(data.password, parseInt(BCRYPT_SALT))
+            }
+            return await this.userService.updateUser(passwordUpdateData)
         } catch (error) {
             throw error
         }
