@@ -27,7 +27,6 @@ async function copyTemplateFiles(options) {
   * userService
   * userTokenModel
   */
-  console.log(options, 'qwerty')
  if(options.database == 'Sequelize')
  {
   

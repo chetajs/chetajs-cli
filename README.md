@@ -31,6 +31,7 @@ $ chetajs new appname
 $ cd appname
 ```
 
+> 
 > *Using the **env.txt** file as a guide,*
 > 
 > Create a **.env** in the base project directory and setup your database connection string
