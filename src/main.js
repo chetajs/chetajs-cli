@@ -13,6 +13,11 @@ const access = promisify(fs.access);
 const copy = promisify(ncp);
 
 async function copyTemplateFiles(options) {
+  // if(fs.existsSync(options.targetDirectory)) {
+  //   // console.log(chalk.red.bold('Error'), `Directory ${chalk.yellow.bold(options.projectName)} already exists`)
+  //   throw new Error(`Directory ${options.projectName} already exists`)
+  // }
+
  await copy(options.templateDirectory, options.targetDirectory);
  // check options and replace
  /**
@@ -22,43 +27,79 @@ async function copyTemplateFiles(options) {
   * userService
   * userTokenModel
   */
- console.log(options)
+  console.log(options, 'qwerty')
  if(options.database == 'Sequelize')
  {
-  let templateDir = path.resolve(
+  
+  const seqTemplateDir = path.join(
     __dirname,
     './../templates/',
     options.template.toLowerCase(),
     'resource',
     'sequelize'
   );
+
+  // create database directory
+  
+  const dbPath = path.join(
+    `${cwd()}`,
+    `${options.projectName}/src/database`
+  );
+  fs.mkdirSync(dbPath);
+  fs.writeFile(path.join(dbPath, 'connection.js'), fs.readFileSync(path.join(seqTemplateDir, 'connection.js')), (err) => {
+    if(err) {
+        console.log(chalk.red.bold('Error'), err)
+    }
+  })
+  
   const servicesPath = path.join(
     `${cwd()}`,
     `${options.projectName}/src/services`
   );
 
-  // fs.writeFile(path.join(servicesPath, 'authService.js'), path.join(templateDir, 'authService.js'), (err) => {
+  
+  fs.copyFile(path.join(seqTemplateDir, 'userService.js'), path.join(servicesPath, 'userService.js'), (err) => {
+    if(err) {
+        console.log(chalk.red.bold('Error'), err)
+    }
+  })
+
+  fs.copyFile(path.join(seqTemplateDir, 'authService.js'), path.join(servicesPath, 'authService.js'), (err) => {
+    if(err) {
+        console.log(chalk.red.bold('Error'), err)
+    }
+  })
+
+  // fs.writeFile(path.join(servicesPath, 'authService.js'), fs.readFileSync(path.join(seqTemplateDir, 'authService.js')), (err) => {
   //   if(err) {
   //       console.log(chalk.red.bold('Error'), err)
-  //   } else {
-  //       // console.log(chalk.green.bold('DONE'), `${options.name}Service has been generated`)
   //   }
   // })
-  await copy(path.join(templateDir, 'authService.js'), servicesPath)
-  await copy(path.join(templateDir, 'userService.js'), servicesPath)
 
   const modelsPath = path.join(
     `${cwd()}`,
     `${options.projectName}/src/models`
   );
-  await copy(path.join(templateDir, 'userModel.js'), modelsPath)
-  await copy(path.join(templateDir, 'userTokenModel.js'), modelsPath)
+  await fs.writeFile(path.join(modelsPath, 'userModel.js'), fs.readFileSync(path.join(seqTemplateDir, 'userModel.js')), (err) => {
+    if(err) {
+        console.log(chalk.red.bold('Error'), err)
+    }
+  })
+  await fs.writeFile(path.join(modelsPath, 'userTokenModel.js'), fs.readFileSync(path.join(seqTemplateDir, 'userTokenModel.js')), (err) => {
+    if(err) {
+        console.log(chalk.red.bold('Error'), err)
+    }
+  })
 
   const srcPath = path.join(
     `${cwd()}`,
     `${options.projectName}/src`
   );
-  await copy(path.join(templateDir, 'index.js'), srcPath)
+  await fs.writeFile(path.join(srcPath, 'index.js'), fs.readFileSync(path.join(seqTemplateDir, 'index.js')), (err) => {
+    if(err) {
+        console.log(chalk.red.bold('Error'), err)
+    }
+  })
  }
  
 }
@@ -99,7 +140,7 @@ export async function createProject(options) {
     const tasks = new Listr([
       {
         title: 'Copy project files',
-        task: () => copyTemplateFiles(options),
+        task: () => copyTemplateFiles(options)
       },
       {
         title: 'Create package.json file',
@@ -129,5 +170,10 @@ export async function createProject(options) {
     
     await tasks.run()
     console.log('%s Project ready', chalk.green.bold('DONE'));
+    console.log(`
+    
+    Next Steps:
+    - Edit the .env file to setup your db and mail provider
+`)
     return true;
 }

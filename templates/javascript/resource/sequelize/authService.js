@@ -69,8 +69,8 @@ export class AuthService {
                 const token = util.generateToken(6)
 
                 let mailer = new Mail
-                mailer.from = "onyenekechristian@gmail.com"
-                mailer.to = "onyenekechristian@yahoo.com"
+                mailer.from = "recovery@domain.com"
+                mailer.to = user.email
                 mailer.subject = "Password recovery token"
                 mailer.body = `Dear ${user.userName}, <br> Kindly find below your password recovery token. <br> This token is valid for 5 minutes. <br> Token: <b>${token}</b>`
                 

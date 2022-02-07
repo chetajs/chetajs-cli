@@ -173,10 +173,6 @@ export async function cli(args) {
                     makeController(optsGen)
                     makeService(optsGen)
                     makeRoute(optsGen)
-                    console.log(`
-                    Next Steps:
-                    - Edit the .env file to setup your db and mail provider
-                    `)
                     break;
                 case "model":
                 case "m":
