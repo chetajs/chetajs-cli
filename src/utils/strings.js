@@ -1,5 +1,11 @@
 export const toPascalCase = (str) => {
-    str = str.replace(/\w+/g,
-        function(w){return w[0].toUpperCase() + w.slice(1).toLowerCase();});
-    return str
+    const result = str.replace(/([A-Z])/g, "$1");
+    const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
+    return finalResult
+}
+
+export const toPascalCaseToWord = (str) => {
+    const result = str.replace(/([A-Z])/g, " $1");
+    const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
+    return finalResult
 }

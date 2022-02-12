@@ -10,7 +10,12 @@
     "access": "public"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
   "keywords": [
     "cli-generator",
@@ -40,7 +45,12 @@
     "pkg-install": "^1.0.0"
   },
   "devDependencies": {
-    "ansi-regex": ">=5.0.1"
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "jest": "^27.5.1",
+    "babel-jest": "^23.6.0",
+    "mock-fs": "^5.1.2"
   },
   "repository": {
     "type": "git",
