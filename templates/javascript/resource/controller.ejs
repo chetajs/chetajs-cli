@@ -16,7 +16,7 @@ export class <%= _nameInPascal %>Controller
     create<%= _nameInPascal %> = async (req, res) => {
         try {
             await this.<%= _name %>Service.create<%= _nameInPascal %>(req.body).then(data => {
-                res.json(new Response("<%= _nameInPascal %> created", data));
+                res.json(new Response("<%= _nameInWord %> created", data));
             }).catch(err => {
                 res.status(400).json(new Response("An error occured!", err, false));
             })
@@ -28,7 +28,7 @@ export class <%= _nameInPascal %>Controller
     update<%= _nameInPascal %> = async (req, res) => {
         try {
             await this.<%= _name %>Service.update<%= _nameInPascal %>(req.body).then(data => {
-                res.json(new Response("<%= _nameInPascal %> updated", data));
+                res.json(new Response("<%= _nameInWord %> updated", data));
             }).catch(err => {
                 res.status(400).json(new Response("An error occured!", err, false));
             })
@@ -40,7 +40,7 @@ export class <%= _nameInPascal %>Controller
     getAll<%= _nameInPascal %>s = async (req, res) => {
         try {
             await this.<%= _name %>Service.getAll<%= _nameInPascal %>s().then(data => {
-                res.json(new Response("All <%= _name %>s", data));
+                res.json(new Response("All <%= _nameInWord %>s", data));
             }).catch(err => {
                 res.status(400).json(new Response("An error occured!", err, false));
             })
@@ -52,7 +52,7 @@ export class <%= _nameInPascal %>Controller
     get<%= _nameInPascal %> = async (req, res) => {
         try {
             await this.<%= _name %>Service.get<%= _nameInPascal %>(req.params.<%= _name %>id).then(data => {
-                res.json(new Response("<%= _nameInPascal %> found", data));
+                res.json(new Response("<%= _nameInWord %> found", data));
             }).catch(err => {
                 console.log(err)
                 res.status(400).json(new Response(err, "", false));
@@ -65,7 +65,7 @@ export class <%= _nameInPascal %>Controller
     delete<%= _nameInPascal %> = async (req, res) => {
         try {
             await this.<%= _name %>Service.delete<%= _nameInPascal %>(req.params.<%= _name %>id).then(data => {
-                res.json(new Response("<%= _nameInPascal %> deleted"));
+                res.json(new Response("<%= _nameInWord %> deleted"));
             }).catch(err => {
                 res.status(400).json(new Response("An error occured!", err, false));
             })

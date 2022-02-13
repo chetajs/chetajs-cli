@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs'
 import ejs from 'ejs'
 import chalk from 'chalk';
-import { toPascalCase } from '../utils/strings'
+import { toPascalCase, toPascalCaseToWord } from '../utils/strings'
 import boxen from 'boxen';
 import { cwd } from 'process';
 
@@ -49,6 +49,7 @@ export const makeModel = async (options) => {
 
 export const makeController = async (options) => {
     const nameInPascal = toPascalCase(options.name)
+    const nameInWord = toPascalCaseToWord(options.name)
     const newFile = path.join(
         `${cwd()}`,
         `./src/controllers`, 
@@ -60,7 +61,7 @@ export const makeController = async (options) => {
       );
 
     
-    let file = await ejs.renderFile(templateDir, {_name: options.name, _nameInPascal: nameInPascal, _empty: options.empty})
+    let file = await ejs.renderFile(templateDir, {_name: options.name, _nameInPascal: nameInPascal, _nameInWord: nameInWord, _empty: options.empty})
     if(fs.existsSync(newFile) && !options.forceAction) {
         console.log(chalk.red.bold('Error'), `${options.name}Controller already exists`)
         return
@@ -200,4 +201,8 @@ export const makeConfig = async (options) => {
             console.log(chalk.green.bold('DONE'), `config.json has been generated`)
         }
     })
+}
+
+export const sumNumbers = (a, b) => {
+    return a + b;
 }
